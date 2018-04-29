@@ -112,10 +112,10 @@ class Level {
 			throw new Error('В метод obstacleAt передан не вектор.');
 		}
 
-		let xStart = Math.floor(pos.x);
-		let xEnd = Math.ceil(pos.x + size.x);
-		let yStart = Math.floor(pos.y);
-		let yEnd = Math.ceil(pos.y + size.y);
+		const xStart = Math.floor(pos.x);
+		const xEnd = Math.ceil(pos.x + size.x);
+		const yStart = Math.floor(pos.y);
+		const yEnd = Math.ceil(pos.y + size.y);
 		if (xStart < 0 || xEnd > this.width || yStart < 0) {
 			return 'wall';
 		}
@@ -179,8 +179,8 @@ class LevelParser {
 		});
 	}
 	createActors(plan) {
-		let actors = [];
-		let splittedArr = plan.map(el => el.split(''));
+		const actors = [];
+		const splittedArr = plan.map(el => el.split(''));
 		splittedArr.forEach((row, y) => {
 			row.forEach((cell, x) => {
 				if (typeof this.dictionary[cell] === 'function') {
@@ -216,8 +216,8 @@ class Fireball extends Actor {
 	}
 
 	act(time, level) {
-		let nextPosition = this.getNextPosition(time);
-		let isIntersect = level.obstacleAt(nextPosition, this.size);
+		const nextPosition = this.getNextPosition(time);
+		const isIntersect = level.obstacleAt(nextPosition, this.size);
 		if (!isIntersect) {
 			this.pos = nextPosition;
 		} else {
@@ -325,8 +325,10 @@ const schemas = [
 ];
 const actorDict = {
 	'@': Player,
-	v: FireRain,
-	o: Coin,
+	'v': FireRain,
+	'o': Coin,
+	'=': HorizontalFireball, 
+	'|': VerticalFireball
 };
 const parser = new LevelParser(actorDict);
 runGame(schemas, parser, DOMDisplay).then(() =>
